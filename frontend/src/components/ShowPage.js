@@ -1,19 +1,22 @@
-import React from 'react';
-import {
-  Col,
-  Row,
-  ListGroup,
-  Card,
-  Button,
-  Image,
-  ListGroupItem,
-} from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { Col, Row, ListGroup, Card, Button, Image } from 'react-bootstrap';
 import Review from '../components/Review';
-import products from '../products';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 const ShowPage = ({ match }) => {
-  const product = products.find((item) => item._id === match.params.id);
+  const [product, setProduct] = useState({});
+
+  const fetchProduct = async () => {
+    const { data } = await axios.get(`/api/products/${match.params.id}`);
+
+    setProduct(data);
+  };
+
+  useEffect(() => {
+    fetchProduct();
+  }, []);
+
   return (
     <React.Fragment>
       <Link to='/'>Back To Products</Link>
