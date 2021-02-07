@@ -1,17 +1,22 @@
 import { Fragment } from 'react';
 import Head from './components/Head';
 import Home from './components/Home';
+import ShowPage from './components/ShowPage';
 import { Container } from 'react-bootstrap';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 const App = () => {
   return (
-    <Fragment>
-      <Head />
-      <main className='py-4'>
-        <Container>
-          <Home />
-        </Container>
-      </main>
-    </Fragment>
+    <Router>
+      <Fragment>
+        <Head />
+        <main className='py-4'>
+          <Container>
+            <Route path='/' component={Home} exact />
+            <Route path='/product/:id' component={ShowPage} />
+          </Container>
+        </main>
+      </Fragment>
+    </Router>
   );
 };
 
