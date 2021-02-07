@@ -1,5 +1,6 @@
 import { Fragment } from 'react';
 import Head from './components/Head';
+import Home from './components/Home';
 import { Container } from 'react-bootstrap';
 const App = () => {
   return (
@@ -7,7 +8,7 @@ const App = () => {
       <Head />
       <main className='py-4'>
         <Container>
-          <h1>Will's Shop</h1>
+          <Home />
         </Container>
       </main>
     </Fragment>
