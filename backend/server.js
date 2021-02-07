@@ -1,6 +1,11 @@
 const express = require('express');
+const dotenv = require('dotenv');
+const connectDB = require('./db');
+dotenv.config();
 const app = express();
 const products = require('./products');
+
+connectDB();
 
 app.get('/', (req, res) => {
   res.send('Home page');
@@ -17,6 +22,6 @@ app.get('/api/products/:id', (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(5000, () => {
+app.listen(PORT, () => {
   console.log(`Listening on ${PORT}`);
 });
