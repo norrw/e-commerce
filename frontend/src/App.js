@@ -4,6 +4,8 @@ import Home from './components/Home';
 import ShowPage from './components/ShowPage';
 import { Container } from 'react-bootstrap';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import Cart from './components/Cart';
+
 const App = () => {
   return (
     <Router>
@@ -13,6 +15,7 @@ const App = () => {
           <Container>
             <Route path='/' component={Home} exact />
             <Route path='/product/:id' component={ShowPage} />
+            <Route path='/cart/:id?' component={Cart} />
           </Container>
         </main>
       </Fragment>
