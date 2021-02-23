@@ -12,6 +12,14 @@ import {
   ORDER_LIST_MY_SUCCESS,
   ORDER_LIST_MY_REQUEST,
   ORDER_LIST_MY_FAIL,
+  ORDER_LIST_ALL_SUCCESS,
+  ORDER_LIST_ALL_RESET,
+  ORDER_LIST_ALL_REQUEST,
+  ORDER_LIST_ALL_FAIL,
+  ORDER_DELIVER_RESET,
+  ORDER_DELIVER_REQUEST,
+  ORDER_DELIVER_FAIL,
+  ORDER_DELIVER_SUCCESS,
 } from '../constants/orderConstants';
 import axios from 'axios';
 
@@ -102,6 +110,37 @@ const payOrder = (id, paymentResult) => async (dispatch, getState) => {
   }
 };
 
+const deliverOrder = (order) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: ORDER_DELIVER_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.put(
+      `/api/orders/${order._id}/deliver`,
+      {},
+      config
+    );
+
+    dispatch({ type: ORDER_DELIVER_SUCCESS, payload: data });
+  } catch (err) {
+    dispatch({
+      type: ORDER_DELIVER_FAIL,
+      payload:
+        err.response && err.response.data.message
+          ? err.response.data.message
+          : err.message,
+    });
+  }
+};
+
 const listMyOrders = () => async (dispatch, getState) => {
   try {
     dispatch({ type: ORDER_LIST_MY_REQUEST });
@@ -129,4 +168,38 @@ const listMyOrders = () => async (dispatch, getState) => {
   }
 };
 
-export { createOrder, getOrderDetails, payOrder, listMyOrders };
+const listOrders = () => async (dispatch, getState) => {
+  try {
+    dispatch({ type: ORDER_LIST_ALL_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get(`/api/orders`, config);
+
+    dispatch({ type: ORDER_LIST_ALL_SUCCESS, payload: data });
+  } catch (err) {
+    dispatch({
+      type: ORDER_LIST_ALL_FAIL,
+      payload:
+        err.response && err.response.data.message
+          ? err.response.data.message
+          : err.message,
+    });
+  }
+};
+
+export {
+  deliverOrder,
+  listOrders,
+  createOrder,
+  getOrderDetails,
+  payOrder,
+  listMyOrders,
+};

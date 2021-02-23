@@ -6,7 +6,8 @@ const app = express();
 const productRoutes = require('./routes/productRoutes');
 const userRoutes = require('./routes/userRoutes');
 const orderRoutes = require('./routes/orderRoutes');
-
+const uploadRoutes = require('./routes/uploadRoutes');
+const path = require('path');
 app.use(express.json());
 
 connectDB();
@@ -14,10 +15,13 @@ connectDB();
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
+app.use('/api/upload', uploadRoutes);
 
 app.get('/api/config/paypal', (req, res) => {
   res.send(process.env.PAYPAL_CLIENT_ID);
 });
+
+app.use('/uploads', express.static('uploads'));
 
 app.use((req, res, next) => {
   const error = new Error(`${req.originalUrl} not found`);

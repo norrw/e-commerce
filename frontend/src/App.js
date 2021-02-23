@@ -12,6 +12,11 @@ import Shipping from './components/Shipping';
 import Payment from './components/Payment';
 import PlaceOrder from './components/PlaceOrder';
 import Order from './components/Order';
+import UserList from './components/UserList';
+import UserEdit from './components/UserEdit';
+import ProductList from './components/ProductList';
+import ProductEdit from './components/ProductEdit';
+import OrderList from './components/OrderList';
 
 const App = () => {
   return (
@@ -20,6 +25,11 @@ const App = () => {
         <Head />
         <main className='py-4'>
           <Container>
+            <Route path='/admin/orderlist' component={OrderList} />
+            <Route path='/admin/product/:id/edit' component={ProductEdit} />
+            <Route path='/admin/productlist' component={ProductList} />
+            <Route path='/admin/user/:id/edit' component={UserEdit} />
+            <Route path='/admin/userlist' component={UserList} />
             <Route path='/order/:id' component={Order} />
             <Route path='/placeOrder' component={PlaceOrder} />
             <Route path='/payment' component={Payment} />
