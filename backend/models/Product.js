@@ -2,6 +2,21 @@ const mongoose = require('mongoose');
 const Review = require('./Review');
 const User = require('./User');
 
+const reviewSchema = mongoose.Schema(
+  {
+    name: { type: String, required: true },
+    rating: { type: Number, required: true },
+    comment: { type: String, required: true },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'User',
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 const productSchema = mongoose.Schema(
   {
     user: {
@@ -9,12 +24,6 @@ const productSchema = mongoose.Schema(
       required: true,
       ref: 'User',
     },
-    reviews: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Review',
-      },
-    ],
     name: {
       type: String,
       required: true,
@@ -45,6 +54,7 @@ const productSchema = mongoose.Schema(
       required: true,
       default: 0,
     },
+    reviews: [reviewSchema],
     rating: {
       type: Number,
       required: true,
